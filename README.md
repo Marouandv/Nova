@@ -1,36 +1,50 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# NovaTec (Nova)
+
+> Ein digitales Kassensystem für kleine Händler in Marokko.
+
+## Das Problem
+
+In Marokko gibt es rund 20 Millionen Zahlungskarten, aber nur etwa 50.000 Geschäfte mit einem Kartenterminal – bei einem geschätzten Potenzial von rund 200.000 möglichen Akzeptanzstellen. Die meisten kleinen Händler (Cafés, Kioske, Marktstände) kassieren weiterhin ausschließlich bar und führen Lager sowie Umsatz auf Papier oder gar nicht.
+
+## Die Idee
+
+Nova ist ein einfaches, modernes Kassensystem für genau diese Zielgruppe – inspiriert von SumUp und dem marokkanischen Vorbild Inyad. Statt selbst eine eigene Zahlungslizenz aufzubauen, soll sich Nova künftig mit einem bereits lizenzierten Zahlungsdienstleister (z. B. NAPS) verbinden, die seit der Marktöffnung im Mai 2025 Kartenterminals direkt an Händler vergeben dürfen.
+
+## Kernfunktionen (geplant)
+
+- **🧾 Kasse & Verkauf** — Produkte auswählen, Warenkorb, Rabatte, Verkauf abschließen (bar/Karte), Beleg erstellen
+- **📦 Produkte & Lager** — Produktkatalog, automatische Bestandsführung, Wareneingänge, Lieferanten, Warnung bei niedrigem Bestand
+- **📊 Dashboard & Reports** — Tagesumsatz, Top-Produkte, Umsatz nach Zahlungsart, Datenexport für die Buchhaltung
+- **👤 Nutzer & Rollen** — Login, unterschiedliche Rechte für Besitzer und Verkäufer, Mehrfilialen-Unterstützung
+- **💳 Zahlung & TPE** — Kartenzahlung über einen lizenzierten Payment-Partner, Terminal-Anbindung, Zahlungsstatus in Echtzeit
+
+## Architektur-Prinzipien
+
+- **Multi-Tenant von Anfang an:** eine gemeinsame Datenbank, jeder Datensatz über eine `store_id` einem Händler zugeordnet — keine separate Instanz pro Kunde
+- **Payment als austauschbarer Baustein:** die Zahlungsintegration ist bewusst von der Kern-Logik getrennt, damit sich später auch andere Anbieter anbinden lassen
+
+## Tech-Stack
+
+| Bereich | Technologie |
+|---|---|
+| Frontend & Backend | [Next.js](https://nextjs.org/) (App Router), TypeScript |
+| Styling | Tailwind CSS |
+| Datenbank *(geplant)* | [Supabase](https://supabase.com/) (Postgres) |
+| Zahlungspartner *(geplant)* | NAPS – TPE-Terminal-Integration |
+
+## Marktkontext
+
+Der marokkanische Zahlungsmarkt wurde im Mai 2025 für neue Anbieter geöffnet, nachdem CMI über 20 Jahre lang eine Quasi-Monopolstellung hatte. Kontaktloses Bezahlen macht bereits über 40 % aller Point-of-Sale-Transaktionen aus — Bargeld bleibt aber weiterhin dominant. Genau diese Lücke will Nova schließen.
+
+## Projektstatus
+
+🚧 Frühe Entwicklungsphase. Aktueller Fokus: Kassen-Grundfunktionen ohne Datenbank- und Zahlungsanbindung. Vollständiger Produkt-Backlog mit allen User Stories liegt in Notion.
 
 ## Getting Started
 
-First, run the development server:
-
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Öffne [http://localhost:3000](http://localhost:3000) im Browser.
