@@ -1,15 +1,19 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import ProductList from "@/app/components/ProductList";
 import Cart from "@/app/components/Cart";
+import { products } from "@/lib/products";
+import { saveSale } from "@/lib/sales";
 
 export default function Home() {
   const [cart, setCart] = useState<Record<string, number>>({});
+  const [showConfirmation, setShowConfirmation] = useState(false);
   const t = useTranslations("Sale");
 
   function handleAdd(productId: string) {
+    setShowConfirmation(false);
     setCart((current) => ({
       ...current,
       [productId]: (current[productId] ?? 0) + 1,
@@ -28,6 +32,37 @@ export default function Home() {
     });
   }
 
+  function handleComplete() {
+    const items = products
+      .filter((product) => (cart[product.id] ?? 0) > 0)
+      .map((product) => ({
+        productId: product.id,
+        name: product.name,
+        quantity: cart[product.id],
+        price: product.price,
+      }));
+    const total = items.reduce(
+      (sum, item) => sum + item.price * item.quantity,
+      0,
+    );
+
+    saveSale({
+      id: crypto.randomUUID(),
+      items,
+      total,
+      createdAt: new Date().toISOString(),
+    });
+
+    setCart({});
+    setShowConfirmation(true);
+  }
+
+  useEffect(() => {
+    if (!showConfirmation) return;
+    const timeout = setTimeout(() => setShowConfirmation(false), 3000);
+    return () => clearTimeout(timeout);
+  }, [showConfirmation]);
+
   return (
     <div className="flex flex-1 flex-col items-center bg-zinc-50 font-sans dark:bg-black">
       <main className="flex w-full max-w-2xl flex-1 flex-col gap-6 px-6 py-10 sm:px-8">
@@ -40,6 +75,15 @@ export default function Home() {
           </p>
         </div>
 
+        {showConfirmation && (
+          <div
+            role="status"
+            className="rounded-lg border border-green-300 bg-green-50 px-4 py-3 text-sm font-medium text-green-800 dark:border-green-800 dark:bg-green-950 dark:text-green-200"
+          >
+            {t("confirmation")}
+          </div>
+        )}
+
         <section className="rounded-xl border border-zinc-200 bg-white p-4 dark:border-zinc-800 dark:bg-zinc-950">
           <h2 className="mb-2 text-sm font-medium text-zinc-500 dark:text-zinc-400">
             {t("products")}
@@ -48,7 +92,7 @@ export default function Home() {
         </section>
 
         <section className="rounded-xl border border-zinc-200 bg-white p-4 dark:border-zinc-800 dark:bg-zinc-950">
-          <Cart cart={cart} onRemove={handleRemove} />
+          <Cart cart={cart} onRemove={handleRemove} onComplete={handleComplete} />
         </section>
       </main>
     </div>

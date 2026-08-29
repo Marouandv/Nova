@@ -5,9 +5,10 @@ import { formatPrice } from "@/lib/format";
 type CartProps = {
   cart: Record<string, number>;
   onRemove: (productId: string) => void;
+  onComplete: () => void;
 };
 
-export default function Cart({ cart, onRemove }: CartProps) {
+export default function Cart({ cart, onRemove, onComplete }: CartProps) {
   const t = useTranslations("Cart");
 
   const items = products
@@ -54,6 +55,13 @@ export default function Cart({ cart, onRemove }: CartProps) {
               {formatPrice(total)}
             </span>
           </div>
+          <button
+            type="button"
+            onClick={onComplete}
+            className="mt-1 w-full rounded-lg bg-zinc-900 px-4 py-2.5 text-sm font-medium text-zinc-50 hover:bg-zinc-800 dark:bg-zinc-50 dark:text-zinc-900 dark:hover:bg-zinc-200"
+          >
+            {t("complete")}
+          </button>
         </>
       )}
     </div>
