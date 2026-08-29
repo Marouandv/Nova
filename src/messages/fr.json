@@ -11,5 +11,17 @@
     "sum": "Total",
     "remove": "Retirer {name}",
     "complete": "Terminer la vente"
+  },
+  "ProductList": {
+    "stock": "Stock : {count}"
+  },
+  "ProductForm": {
+    "title": "Ajouter un produit",
+    "nameLabel": "Nom du produit",
+    "namePlaceholder": "Ex. Café",
+    "priceLabel": "Prix (MAD)",
+    "stockLabel": "Stock initial",
+    "submit": "Ajouter le produit",
+    "confirmation": "Produit ajouté."
   }
 }

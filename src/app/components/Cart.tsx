@@ -1,14 +1,15 @@
 import { useTranslations } from "next-intl";
-import { products } from "@/lib/products";
+import type { Product } from "@/lib/products";
 import { formatPrice } from "@/lib/format";
 
 type CartProps = {
+  products: Product[];
   cart: Record<string, number>;
   onRemove: (productId: string) => void;
   onComplete: () => void;
 };
 
-export default function Cart({ cart, onRemove, onComplete }: CartProps) {
+export default function Cart({ products, cart, onRemove, onComplete }: CartProps) {
   const t = useTranslations("Cart");
 
   const items = products

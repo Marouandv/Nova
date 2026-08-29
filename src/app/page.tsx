@@ -1,16 +1,32 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useSyncExternalStore } from "react";
 import { useTranslations } from "next-intl";
 import ProductList from "@/app/components/ProductList";
+import ProductForm from "@/app/components/ProductForm";
 import Cart from "@/app/components/Cart";
-import { products } from "@/lib/products";
+import {
+  addProduct,
+  getProductsSnapshot,
+  getServerProductsSnapshot,
+  subscribeToProducts,
+  type NewProduct,
+} from "@/lib/products";
 import { saveSale } from "@/lib/sales";
 
 export default function Home() {
+  const products = useSyncExternalStore(
+    subscribeToProducts,
+    getProductsSnapshot,
+    getServerProductsSnapshot,
+  );
   const [cart, setCart] = useState<Record<string, number>>({});
   const [showConfirmation, setShowConfirmation] = useState(false);
   const t = useTranslations("Sale");
+
+  function handleAddProduct(input: NewProduct) {
+    addProduct(input);
+  }
 
   function handleAdd(productId: string) {
     setShowConfirmation(false);
@@ -88,11 +104,20 @@ export default function Home() {
           <h2 className="mb-2 text-sm font-medium text-zinc-500 dark:text-zinc-400">
             {t("products")}
           </h2>
-          <ProductList cart={cart} onAdd={handleAdd} />
+          <ProductList products={products} cart={cart} onAdd={handleAdd} />
         </section>
 
         <section className="rounded-xl border border-zinc-200 bg-white p-4 dark:border-zinc-800 dark:bg-zinc-950">
-          <Cart cart={cart} onRemove={handleRemove} onComplete={handleComplete} />
+          <Cart
+            products={products}
+            cart={cart}
+            onRemove={handleRemove}
+            onComplete={handleComplete}
+          />
+        </section>
+
+        <section className="rounded-xl border border-zinc-200 bg-white p-4 dark:border-zinc-800 dark:bg-zinc-950">
+          <ProductForm onAdd={handleAddProduct} />
         </section>
       </main>
     </div>
