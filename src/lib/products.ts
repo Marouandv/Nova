@@ -81,3 +81,17 @@ export function addProduct(input: NewProduct): Product {
   notify();
   return product;
 }
+
+// Deducts the sold quantities from stock. Called once a sale is completed,
+// so the stock shown in the POS stays in sync without manual counting.
+export function reduceStock(soldQuantities: Record<string, number>) {
+  const products = getProductsSnapshot();
+  const updated = products.map((product) => {
+    const sold = soldQuantities[product.id] ?? 0;
+    if (sold === 0) return product;
+    return { ...product, stock: product.stock - sold };
+  });
+
+  saveProducts(updated);
+  notify();
+}

@@ -9,6 +9,7 @@ import {
   addProduct,
   getProductsSnapshot,
   getServerProductsSnapshot,
+  reduceStock,
   subscribeToProducts,
   type NewProduct,
 } from "@/lib/products";
@@ -30,10 +31,13 @@ export default function Home() {
 
   function handleAdd(productId: string) {
     setShowConfirmation(false);
-    setCart((current) => ({
-      ...current,
-      [productId]: (current[productId] ?? 0) + 1,
-    }));
+    setCart((current) => {
+      const stock = products.find((p) => p.id === productId)?.stock ?? 0;
+      const quantity = current[productId] ?? 0;
+      // Never sell more than what is in stock, which would drive it negative.
+      if (quantity >= stock) return current;
+      return { ...current, [productId]: quantity + 1 };
+    });
   }
 
   function handleRemove(productId: string) {
@@ -68,6 +72,7 @@ export default function Home() {
       total,
       createdAt: new Date().toISOString(),
     });
+    reduceStock(cart);
 
     setCart({});
     setShowConfirmation(true);
