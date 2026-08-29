@@ -11,7 +11,7 @@ export type NewProduct = {
   stock: number;
 };
 
-// Lokale Mock-Daten fürs MVP — dient als Startbestand für den lokalen Store.
+// Local mock data for the MVP — seeds the local store on first run.
 export const initialProducts: Product[] = [
   { id: "1", name: "Café", price: 8, stock: 50 },
   { id: "2", name: "Thé à la menthe", price: 6, stock: 50 },
@@ -22,8 +22,8 @@ export const initialProducts: Product[] = [
 
 const STORAGE_KEY = "nova:products";
 
-// Lokale Persistenz fürs MVP — funktioniert offline, bis eine echte
-// Datenbank (Supabase) angebunden ist.
+// Local persistence for the MVP — works offline until a real database
+// (Supabase) is wired up.
 function saveProducts(products: Product[]) {
   window.localStorage.setItem(STORAGE_KEY, JSON.stringify(products));
 }

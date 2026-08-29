@@ -14,8 +14,8 @@ export type Sale = {
 
 const STORAGE_KEY = "nova:sales";
 
-// Lokale Persistenz fürs MVP — funktioniert offline, bis eine echte
-// Datenbank (Supabase) angebunden ist.
+// Local persistence for the MVP — works offline until a real database
+// (Supabase) is wired up.
 export function saveSale(sale: Sale) {
   const sales = getSales();
   sales.push(sale);

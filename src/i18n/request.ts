@@ -1,7 +1,7 @@
 import { getRequestConfig } from "next-intl/server";
 
-// Nur Französisch, siehe "Sprache" in AGENTS.md. Weitere Locales (z. B. `ar`)
-// kommen später als zusätzliche Datei unter `src/messages/` dazu.
+// French only, see "Sprache" in AGENTS.md. Further locales (e.g. `ar`) will be
+// added later as additional files under `src/messages/`.
 export default getRequestConfig(async () => {
   const locale = "fr";
 
