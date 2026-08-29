@@ -23,5 +23,16 @@
     "stockLabel": "Stock initial",
     "submit": "Ajouter le produit",
     "confirmation": "Produit ajouté."
+  },
+  "Login": {
+    "title": "Connexion",
+    "subtitle": "Connectez-vous pour accéder à la caisse.",
+    "emailLabel": "E-mail",
+    "passwordLabel": "Mot de passe",
+    "submit": "Se connecter",
+    "error": "E-mail ou mot de passe incorrect."
+  },
+  "Auth": {
+    "logout": "Se déconnecter"
   }
 }
