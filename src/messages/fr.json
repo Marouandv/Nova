@@ -24,6 +24,18 @@
     "submit": "Ajouter le produit",
     "confirmation": "Produit ajouté."
   },
+  "ProductManager": {
+    "title": "Gérer les produits",
+    "edit": "Modifier {name}",
+    "delete": "Supprimer {name}",
+    "nameLabel": "Nom du produit",
+    "priceLabel": "Prix (MAD)",
+    "save": "Enregistrer",
+    "cancel": "Annuler",
+    "confirmDelete": "Supprimer « {name} » ?",
+    "confirm": "Confirmer",
+    "empty": "Aucun produit enregistré."
+  },
   "Login": {
     "title": "Connexion",
     "subtitle": "Connectez-vous pour accéder à la caisse.",

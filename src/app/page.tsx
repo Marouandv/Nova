@@ -4,14 +4,18 @@ import { useEffect, useState, useSyncExternalStore } from "react";
 import { useTranslations } from "next-intl";
 import ProductList from "@/app/components/ProductList";
 import ProductForm from "@/app/components/ProductForm";
+import ProductManager from "@/app/components/ProductManager";
 import Cart from "@/app/components/Cart";
 import {
   addProduct,
+  deleteProduct,
   getProductsSnapshot,
   getServerProductsSnapshot,
   reduceStock,
   subscribeToProducts,
+  updateProduct,
   type NewProduct,
+  type ProductChanges,
 } from "@/lib/products";
 import { saveSale } from "@/lib/sales";
 
@@ -27,6 +31,20 @@ export default function Home() {
 
   function handleAddProduct(input: NewProduct) {
     addProduct(input);
+  }
+
+  function handleUpdateProduct(id: string, changes: ProductChanges) {
+    updateProduct(id, changes);
+  }
+
+  function handleDeleteProduct(id: string) {
+    deleteProduct(id);
+    // Drop the deleted product from the cart so it cannot be sold anymore.
+    setCart((current) => {
+      const next = { ...current };
+      delete next[id];
+      return next;
+    });
   }
 
   function handleAdd(productId: string) {
@@ -123,6 +141,14 @@ export default function Home() {
 
         <section className="rounded-xl border border-zinc-200 bg-white p-4 dark:border-zinc-800 dark:bg-zinc-950">
           <ProductForm onAdd={handleAddProduct} />
+        </section>
+
+        <section className="rounded-xl border border-zinc-200 bg-white p-4 dark:border-zinc-800 dark:bg-zinc-950">
+          <ProductManager
+            products={products}
+            onUpdate={handleUpdateProduct}
+            onDelete={handleDeleteProduct}
+          />
         </section>
       </main>
     </div>

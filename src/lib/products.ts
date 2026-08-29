@@ -11,6 +11,12 @@ export type NewProduct = {
   stock: number;
 };
 
+// Only name and price are editable; stock is driven by sales and restocking.
+export type ProductChanges = {
+  name: string;
+  price: number;
+};
+
 // Local mock data for the MVP — seeds the local store on first run.
 export const initialProducts: Product[] = [
   { id: "1", name: "Café", price: 8, stock: 50 },
@@ -80,6 +86,22 @@ export function addProduct(input: NewProduct): Product {
   saveProducts([...products, product]);
   notify();
   return product;
+}
+
+export function updateProduct(id: string, changes: ProductChanges) {
+  const products = getProductsSnapshot();
+  const updated = products.map((product) =>
+    product.id === id ? { ...product, ...changes } : product,
+  );
+
+  saveProducts(updated);
+  notify();
+}
+
+export function deleteProduct(id: string) {
+  const products = getProductsSnapshot();
+  saveProducts(products.filter((product) => product.id !== id));
+  notify();
 }
 
 // Deducts the sold quantities from stock. Called once a sale is completed,
