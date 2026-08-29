@@ -1,0 +1,13 @@
+{
+  "Sale": {
+    "title": "Vente",
+    "subtitle": "Touchez un produit pour l'ajouter au panier.",
+    "products": "Produits"
+  },
+  "Cart": {
+    "title": "Panier",
+    "empty": "Aucun produit dans le panier.",
+    "sum": "Total",
+    "remove": "Retirer {name}"
+  }
+}
