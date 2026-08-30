@@ -81,3 +81,56 @@ export function getTodaysSales(sales: Sale[]): Sale[] {
 export function getTotalRevenue(sales: Sale[]): number {
   return sales.reduce((sum, sale) => sum + sale.total, 0);
 }
+
+export type Period = "today" | "week" | "month";
+
+// Rolling windows counted back from the start of today, so "week" means the
+// last seven days including today rather than an ISO calendar week.
+const PERIOD_DAYS: Record<Period, number> = {
+  today: 1,
+  week: 7,
+  month: 30,
+};
+
+export function getSalesInPeriod(sales: Sale[], period: Period): Sale[] {
+  const start = new Date();
+  start.setHours(0, 0, 0, 0);
+  start.setDate(start.getDate() - (PERIOD_DAYS[period] - 1));
+
+  return sales.filter((sale) => new Date(sale.createdAt) >= start);
+}
+
+export type ProductSalesTotal = {
+  productId: string;
+  name: string;
+  quantity: number;
+};
+
+// Best-selling products by quantity sold. Item names come from the sale
+// itself, so a renamed or deleted product still reports under the name it
+// carried when it was sold.
+export function getTopProducts(
+  sales: Sale[],
+  limit: number,
+): ProductSalesTotal[] {
+  const totals = new Map<string, ProductSalesTotal>();
+
+  for (const sale of sales) {
+    for (const item of sale.items) {
+      const existing = totals.get(item.productId);
+      if (existing) {
+        existing.quantity += item.quantity;
+      } else {
+        totals.set(item.productId, {
+          productId: item.productId,
+          name: item.name,
+          quantity: item.quantity,
+        });
+      }
+    }
+  }
+
+  return [...totals.values()]
+    .sort((a, b) => b.quantity - a.quantity)
+    .slice(0, limit);
+}
