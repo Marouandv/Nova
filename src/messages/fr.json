@@ -28,6 +28,12 @@
     "subtitle": "Activité du jour.",
     "revenue": "Chiffre d'affaires du jour",
     "salesCount": "Ventes du jour",
+    "topProducts": "Produits les plus vendus",
+    "periodToday": "Aujourd'hui",
+    "periodWeek": "7 jours",
+    "periodMonth": "30 jours",
+    "soldQuantity": "{quantity} vendus",
+    "noSales": "Aucune vente sur cette période.",
     "back": "Retour à la caisse",
     "link": "Tableau de bord"
   },
