@@ -3,6 +3,7 @@
 import { useTranslations } from "next-intl";
 import type { Sale } from "@/lib/sales";
 import { formatDateTime, formatPrice } from "@/lib/format";
+import { useStoreSettings } from "@/app/components/useStoreSettings";
 
 type ReceiptProps = {
   sale: Sale;
@@ -11,6 +12,7 @@ type ReceiptProps = {
 
 export default function Receipt({ sale, onClose }: ReceiptProps) {
   const t = useTranslations("Receipt");
+  const settings = useStoreSettings();
 
   function handlePrint() {
     window.print();
@@ -35,6 +37,17 @@ export default function Receipt({ sale, onClose }: ReceiptProps) {
         </span>
       </div>
 
+      <div className="mt-2">
+        <p className="text-base font-semibold text-zinc-900 dark:text-zinc-100">
+          {settings.name}
+        </p>
+        {settings.address && (
+          <p className="text-xs text-zinc-500 dark:text-zinc-400">
+            {settings.address}
+          </p>
+        )}
+      </div>
+
       <p
         role="status"
         className="mt-1 text-sm font-medium text-green-700 dark:text-green-400"
@@ -52,7 +65,7 @@ export default function Receipt({ sale, onClose }: ReceiptProps) {
               {t("item", { quantity: item.quantity, name: item.name })}
             </span>
             <span className="text-sm text-zinc-900 dark:text-zinc-100">
-              {formatPrice(item.price * item.quantity)}
+              {formatPrice(item.price * item.quantity, settings.currency)}
             </span>
           </li>
         ))}
@@ -63,7 +76,7 @@ export default function Receipt({ sale, onClose }: ReceiptProps) {
           {t("sum")}
         </span>
         <span className="text-lg font-semibold text-zinc-900 dark:text-zinc-100">
-          {formatPrice(sale.total)}
+          {formatPrice(sale.total, settings.currency)}
         </span>
       </div>
 

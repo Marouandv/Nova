@@ -1,6 +1,7 @@
 import { useTranslations } from "next-intl";
 import type { Product } from "@/lib/products";
 import { formatPrice } from "@/lib/format";
+import { useStoreSettings } from "@/app/components/useStoreSettings";
 
 type CartProps = {
   products: Product[];
@@ -11,6 +12,7 @@ type CartProps = {
 
 export default function Cart({ products, cart, onRemove, onComplete }: CartProps) {
   const t = useTranslations("Cart");
+  const { currency } = useStoreSettings();
 
   const items = products
     .map((product) => ({ product, quantity: cart[product.id] ?? 0 }))
@@ -35,7 +37,8 @@ export default function Cart({ products, cart, onRemove, onComplete }: CartProps
             {items.map(({ product, quantity }) => (
               <li key={product.id} className="flex items-center justify-between gap-3 py-2">
                 <span className="text-sm text-zinc-900 dark:text-zinc-100">
-                  {quantity}× {product.name} — {formatPrice(product.price * quantity)}
+                  {quantity}× {product.name} —{" "}
+                  {formatPrice(product.price * quantity, currency)}
                 </span>
                 <button
                   type="button"
@@ -53,7 +56,7 @@ export default function Cart({ products, cart, onRemove, onComplete }: CartProps
               {t("sum")}
             </span>
             <span className="text-lg font-semibold text-zinc-900 dark:text-zinc-100">
-              {formatPrice(total)}
+              {formatPrice(total, currency)}
             </span>
           </div>
           <button
