@@ -23,6 +23,13 @@
     "submit": "Ajouter le produit",
     "confirmation": "Produit ajouté."
   },
+  "Dashboard": {
+    "title": "Tableau de bord",
+    "subtitle": "Activité du jour.",
+    "revenue": "Chiffre d'affaires du jour",
+    "back": "Retour à la caisse",
+    "link": "Tableau de bord"
+  },
   "Settings": {
     "title": "Paramètres du magasin",
     "subtitle": "Ces informations apparaissent sur les reçus.",

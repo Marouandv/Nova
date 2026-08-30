@@ -13,18 +13,24 @@ export default function AppHeader() {
   const pathname = usePathname();
   const { isAuthenticated } = useAuth();
   const t = useTranslations("Settings");
+  const tDashboard = useTranslations("Dashboard");
 
   if (!isAuthenticated || pathname === "/login") {
     return null;
   }
 
+  const linkClassName =
+    "text-sm text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100";
+
   return (
     <header className="flex items-center justify-end gap-4 border-b border-zinc-200 bg-white px-6 py-3 dark:border-zinc-800 dark:bg-zinc-950">
+      {pathname !== "/dashboard" && (
+        <Link href="/dashboard" className={linkClassName}>
+          {tDashboard("link")}
+        </Link>
+      )}
       {pathname !== "/settings" && (
-        <Link
-          href="/settings"
-          className="text-sm text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
-        >
+        <Link href="/settings" className={linkClassName}>
           {t("link")}
         </Link>
       )}
