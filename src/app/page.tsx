@@ -1,11 +1,12 @@
 "use client";
 
-import { useEffect, useState, useSyncExternalStore } from "react";
+import { useState, useSyncExternalStore } from "react";
 import { useTranslations } from "next-intl";
 import ProductList from "@/app/components/ProductList";
 import ProductForm from "@/app/components/ProductForm";
 import ProductManager from "@/app/components/ProductManager";
 import Cart from "@/app/components/Cart";
+import Receipt from "@/app/components/Receipt";
 import {
   addProduct,
   deleteProduct,
@@ -17,7 +18,7 @@ import {
   type NewProduct,
   type ProductChanges,
 } from "@/lib/products";
-import { saveSale } from "@/lib/sales";
+import { saveSale, type Sale } from "@/lib/sales";
 
 export default function Home() {
   const products = useSyncExternalStore(
@@ -26,7 +27,7 @@ export default function Home() {
     getServerProductsSnapshot,
   );
   const [cart, setCart] = useState<Record<string, number>>({});
-  const [showConfirmation, setShowConfirmation] = useState(false);
+  const [lastSale, setLastSale] = useState<Sale | null>(null);
   const t = useTranslations("Sale");
 
   function handleAddProduct(input: NewProduct) {
@@ -48,7 +49,8 @@ export default function Home() {
   }
 
   function handleAdd(productId: string) {
-    setShowConfirmation(false);
+    // Starting a new sale dismisses the previous receipt.
+    setLastSale(null);
     setCart((current) => {
       const stock = products.find((p) => p.id === productId)?.stock ?? 0;
       const quantity = current[productId] ?? 0;
@@ -84,23 +86,19 @@ export default function Home() {
       0,
     );
 
-    saveSale({
+    const sale: Sale = {
       id: crypto.randomUUID(),
       items,
       total,
       createdAt: new Date().toISOString(),
-    });
+    };
+
+    saveSale(sale);
     reduceStock(cart);
 
     setCart({});
-    setShowConfirmation(true);
+    setLastSale(sale);
   }
-
-  useEffect(() => {
-    if (!showConfirmation) return;
-    const timeout = setTimeout(() => setShowConfirmation(false), 3000);
-    return () => clearTimeout(timeout);
-  }, [showConfirmation]);
 
   return (
     <div className="flex flex-1 flex-col items-center bg-zinc-50 font-sans dark:bg-black">
@@ -114,13 +112,8 @@ export default function Home() {
           </p>
         </div>
 
-        {showConfirmation && (
-          <div
-            role="status"
-            className="rounded-lg border border-green-300 bg-green-50 px-4 py-3 text-sm font-medium text-green-800 dark:border-green-800 dark:bg-green-950 dark:text-green-200"
-          >
-            {t("confirmation")}
-          </div>
+        {lastSale && (
+          <Receipt sale={lastSale} onClose={() => setLastSale(null)} />
         )}
 
         <section className="rounded-xl border border-zinc-200 bg-white p-4 dark:border-zinc-800 dark:bg-zinc-950">
