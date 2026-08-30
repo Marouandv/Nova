@@ -1,7 +1,12 @@
-export function formatPrice(price: number) {
+import { defaultSettings } from "@/lib/store-settings";
+
+export function formatPrice(
+  price: number,
+  currency: string = defaultSettings.currency,
+) {
   return new Intl.NumberFormat("fr-MA", {
     style: "currency",
-    currency: "MAD",
+    currency,
   }).format(price);
 }
 

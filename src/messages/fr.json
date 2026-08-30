@@ -23,6 +23,17 @@
     "submit": "Ajouter le produit",
     "confirmation": "Produit ajouté."
   },
+  "Settings": {
+    "title": "Paramètres du magasin",
+    "subtitle": "Ces informations apparaissent sur les reçus.",
+    "nameLabel": "Nom du magasin",
+    "addressLabel": "Adresse",
+    "currencyLabel": "Devise",
+    "save": "Enregistrer",
+    "saved": "Paramètres enregistrés.",
+    "back": "Retour à la caisse",
+    "link": "Paramètres"
+  },
   "Receipt": {
     "title": "Reçu",
     "saved": "Vente enregistrée.",

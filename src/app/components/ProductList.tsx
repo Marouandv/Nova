@@ -3,6 +3,7 @@
 import { useTranslations } from "next-intl";
 import type { Product } from "@/lib/products";
 import { formatPrice } from "@/lib/format";
+import { useStoreSettings } from "@/app/components/useStoreSettings";
 
 type ProductListProps = {
   products: Product[];
@@ -12,6 +13,7 @@ type ProductListProps = {
 
 export default function ProductList({ products, cart, onAdd }: ProductListProps) {
   const t = useTranslations("ProductList");
+  const { currency } = useStoreSettings();
 
   return (
     <ul className="w-full divide-y divide-zinc-200 dark:divide-zinc-800">
@@ -38,7 +40,7 @@ export default function ProductList({ products, cart, onAdd }: ProductListProps)
                 </span>
               </span>
               <span className="text-base font-medium text-zinc-900 dark:text-zinc-100">
-                {formatPrice(product.price)}
+                {formatPrice(product.price, currency)}
               </span>
             </button>
           </li>

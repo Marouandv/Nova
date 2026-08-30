@@ -4,6 +4,7 @@ import { useState, type FormEvent } from "react";
 import { useTranslations } from "next-intl";
 import type { Product, ProductChanges } from "@/lib/products";
 import { formatPrice } from "@/lib/format";
+import { useStoreSettings } from "@/app/components/useStoreSettings";
 
 type ProductManagerProps = {
   products: Product[];
@@ -20,6 +21,7 @@ export default function ProductManager({
   onDelete,
 }: ProductManagerProps) {
   const t = useTranslations("ProductManager");
+  const { currency } = useStoreSettings();
   const [editingId, setEditingId] = useState<string | null>(null);
   const [pendingDeleteId, setPendingDeleteId] = useState<string | null>(null);
   const [name, setName] = useState("");
@@ -104,7 +106,7 @@ export default function ProductManager({
               ) : (
                 <div className="flex items-center justify-between gap-3">
                   <span className="text-sm text-zinc-900 dark:text-zinc-100">
-                    {product.name} — {formatPrice(product.price)}
+                    {product.name} — {formatPrice(product.price, currency)}
                   </span>
                   <div className="flex shrink-0 gap-2">
                     <button
