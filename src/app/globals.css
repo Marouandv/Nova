@@ -24,3 +24,29 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* Printing a receipt should output the receipt only, not the whole POS.
+   Visibility (rather than display) keeps the receipt's layout intact while
+   collapsing everything around it. */
+@media print {
+  body * {
+    visibility: hidden;
+  }
+
+  .receipt,
+  .receipt * {
+    visibility: visible;
+  }
+
+  .receipt {
+    position: absolute;
+    inset-inline-start: 0;
+    top: 0;
+    width: 100%;
+    border: none;
+  }
+
+  .receipt-actions {
+    display: none;
+  }
+}

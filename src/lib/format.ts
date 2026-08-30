@@ -4,3 +4,10 @@ export function formatPrice(price: number) {
     currency: "MAD",
   }).format(price);
 }
+
+export function formatDateTime(isoDate: string) {
+  return new Intl.DateTimeFormat("fr-MA", {
+    dateStyle: "short",
+    timeStyle: "short",
+  }).format(new Date(isoDate));
+}

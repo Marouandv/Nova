@@ -2,8 +2,7 @@
   "Sale": {
     "title": "Vente",
     "subtitle": "Touchez un produit pour l'ajouter au panier.",
-    "products": "Produits",
-    "confirmation": "Vente enregistrée."
+    "products": "Produits"
   },
   "Cart": {
     "title": "Panier",
@@ -23,6 +22,15 @@
     "stockLabel": "Stock initial",
     "submit": "Ajouter le produit",
     "confirmation": "Produit ajouté."
+  },
+  "Receipt": {
+    "title": "Reçu",
+    "saved": "Vente enregistrée.",
+    "date": "Date",
+    "item": "{quantity}× {name}",
+    "sum": "Total",
+    "print": "Imprimer",
+    "close": "Fermer"
   },
   "ProductManager": {
     "title": "Gérer les produits",
