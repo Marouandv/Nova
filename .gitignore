@@ -36,6 +36,9 @@ yarn-error.log*
 # vercel
 .vercel
 
+# local-only MCP config (Supabase project ref/keys should not be shared via git)
+.mcp.json
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts
